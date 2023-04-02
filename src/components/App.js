@@ -4,8 +4,20 @@ import '../styles/App.css';
 const App = () => {
   const [category, setCategory] = useState("general");
   const [newsData, setNewsData] = useState([]);
-  const [loading, setLoading] = useState();
-
+  const [loading, setLoading] = useState(true);
+  const API_KEY="ae5d5c010ca94214706825695754e879"
+  const changeFunction=(e)=>{
+    setCategory(e.target.value);
+  }
+  useEffect(()=>{
+    setLoading(true);
+    fetch(`http://gnews.io/api/v4/top-headlines?category=${category}&lang=en&country=us&max=10&apikey=${API_KEY}`).then(res=>res.json()).then((res)=>{
+      setNewsData(resArticles)
+      console.log(res)
+    }).then(()=>{
+      setLoading(false)
+    })
+  },[category])
   return (
     <div id="main">
       <h1 className='heading'>Top 10 {category} news.</h1>
